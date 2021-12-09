@@ -1,9 +1,6 @@
 package com.aemerse.picker
 
 import android.os.Bundle
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.aemerse.picker.databinding.ActivityResultBinding
 

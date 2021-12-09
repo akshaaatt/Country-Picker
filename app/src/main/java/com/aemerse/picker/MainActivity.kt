@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity(), OnCountryPickerListener {
         binding.bySimButton.setOnClickListener { findBySim() }
         binding.byLocalButton.setOnClickListener { findByLocale() }
         binding.byIsoButton.setOnClickListener { findByIson() }
-        binding.sortByRadioGroup.setOnCheckedChangeListener { radioGroup, id ->
+        binding.sortByRadioGroup.setOnCheckedChangeListener { _, id ->
             sortBy = when (id) {
                 R.id.none_radio_button -> CountryPicker.SORT_BY_NONE
                 R.id.name_radio_button -> CountryPicker.SORT_BY_NAME
@@ -50,26 +50,30 @@ class MainActivity : AppCompatActivity(), OnCountryPickerListener {
         builder.setTitle("Country Code")
         builder.setView(input)
         builder.setCancelable(false)
-        builder.setPositiveButton(android.R.string.ok) { dialog, which ->
-            val country = countryPicker.getCountryByISO(input.text.toString())
-            if (country == null) {
-                Toast.makeText(this@MainActivity, "Country not found", Toast.LENGTH_SHORT).show()
-            } else {
-                showResultActivity(country)
+        builder.setPositiveButton(android.R.string.ok) { _, _ ->
+            when (val country = countryPicker.getCountryByISO(input.text.toString())) {
+                null -> {
+                    Toast.makeText(this@MainActivity, "Country not found", Toast.LENGTH_SHORT).show()
+                }
+                else -> {
+                    showResultActivity(country)
+                }
             }
         }
-        builder.setNegativeButton(android.R.string.cancel) { dialog, which -> dialog.cancel() }
+        builder.setNegativeButton(android.R.string.cancel) { dialog, _ -> dialog.cancel() }
         builder.show()
     }
 
     private fun findByLocale() {
         countryPicker = CountryPicker.Builder().with(this@MainActivity)
                 .listener(this@MainActivity).build()
-        val country = countryPicker.getCountryByLocale(Locale.getDefault())
-        if (country == null) {
-            Toast.makeText(this@MainActivity, "Country not found", Toast.LENGTH_SHORT).show()
-        } else {
-            showResultActivity(country)
+        when (val country = countryPicker.getCountryByLocale(Locale.getDefault())) {
+            null -> {
+                Toast.makeText(this@MainActivity, "Country not found", Toast.LENGTH_SHORT).show()
+            }
+            else -> {
+                showResultActivity(country)
+            }
         }
     }
 
@@ -93,7 +97,7 @@ class MainActivity : AppCompatActivity(), OnCountryPickerListener {
         builder.setTitle("Country Name")
         builder.setView(input)
         builder.setCancelable(false)
-        builder.setPositiveButton(android.R.string.ok) { dialog, which ->
+        builder.setPositiveButton(android.R.string.ok) { _, _ ->
             val country = countryPicker.getCountryByName(input.text.toString())
             if (country == null) {
                 Toast.makeText(this@MainActivity, "Country not found", Toast.LENGTH_SHORT).show()
@@ -101,7 +105,7 @@ class MainActivity : AppCompatActivity(), OnCountryPickerListener {
                 showResultActivity(country)
             }
         }
-        builder.setNegativeButton(android.R.string.cancel) { dialog, which -> dialog.cancel() }
+        builder.setNegativeButton(android.R.string.cancel) { dialog, _ -> dialog.cancel() }
         builder.show()
     }
 
