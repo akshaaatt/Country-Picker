@@ -24,3 +24,19 @@ dependencies {
   implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation 'androidx.core:core-ktx:1.7.0'
 }
+afterEvaluate {
+  publishing {
+    publications {
+      // Creates a Maven publication called "release".
+      release(MavenPublication) {
+        // Applies the component for the release build variant.
+        from components.release
+
+        // You can then customize attributes of the publication as shown below.
+        groupId = 'com.aemerse'
+        artifactId = 'Country-Picker'
+        version = '1.0.0'
+      }
+    }
+  }
+}
