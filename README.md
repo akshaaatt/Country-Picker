@@ -28,7 +28,7 @@ allprojects {
 
 ```
 dependencies {
-    implementation 'com.github.akshaaatt:Country-Picker:1.0.1'
+    implementation 'com.github.akshaaatt:Country-Picker:1.0.2'
 }
 ```
 
