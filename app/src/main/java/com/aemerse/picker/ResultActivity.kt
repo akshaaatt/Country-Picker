@@ -1,4 +1,4 @@
-package com.limerse.picker
+package com.aemerse.picker
 
 import android.os.Bundle
 import android.widget.ImageButton

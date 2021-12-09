@@ -1,4 +1,4 @@
-package com.limerse.countrypicker
+package com.aemerse.countrypicker
 
 import android.content.Context
 import android.graphics.Color
@@ -9,7 +9,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.limerse.countrypicker.listeners.OnItemClickListener
+import com.aemerse.countrypicker.listeners.OnItemClickListener
 
 class CountriesAdapter     // endregion
 //region Constructor

@@ -1,11 +1,11 @@
-package com.limerse.countrypicker
+package com.aemerse.countrypicker
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.limerse.countrypicker.listeners.BottomSheetInteractionListener
+import com.aemerse.countrypicker.listeners.BottomSheetInteractionListener
 
 class BottomSheetDialogView : BottomSheetDialogFragment() {
     private var listener: BottomSheetInteractionListener? = null

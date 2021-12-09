@@ -1,4 +1,4 @@
-package com.limerse.picker
+package com.aemerse.picker
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,9 +7,9 @@ import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SwitchCompat
-import com.limerse.countrypicker.Country
-import com.limerse.countrypicker.CountryPicker
-import com.limerse.countrypicker.listeners.OnCountryPickerListener
+import com.aemerse.countrypicker.Country
+import com.aemerse.countrypicker.CountryPicker
+import com.aemerse.countrypicker.listeners.OnCountryPickerListener
 import java.util.*
 
 class MainActivity : AppCompatActivity(), OnCountryPickerListener {
