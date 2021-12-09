@@ -6,38 +6,30 @@ import android.text.InputType
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SwitchCompat
 import com.aemerse.countrypicker.Country
 import com.aemerse.countrypicker.CountryPicker
 import com.aemerse.countrypicker.listeners.OnCountryPickerListener
+import com.aemerse.picker.databinding.ActivityMainBinding
 import java.util.*
 
 class MainActivity : AppCompatActivity(), OnCountryPickerListener {
-    private var pickCountryButton: Button? = null
-    private var findByNameButton: Button? = null
-    private var findBySimButton: Button? = null
-    private var findByLocaleButton: Button? = null
-    private var findByIsoButton: Button? = null
     private lateinit var countryPicker: CountryPicker
-    private var themeSwitch: SwitchCompat? = null
-    private var styleSwitch: SwitchCompat? = null
-    private var useBottomSheet: SwitchCompat? = null
-    private var searchSwitch: SwitchCompat? = null
-    private var sortByRadioGroup: RadioGroup? = null
     private var sortBy = CountryPicker.SORT_BY_NONE
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        initialize()
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         setListener()
     }
 
     private fun setListener() {
-        findByNameButton!!.setOnClickListener { findByName() }
-        findBySimButton!!.setOnClickListener { findBySim() }
-        findByLocaleButton!!.setOnClickListener { findByLocale() }
-        findByIsoButton!!.setOnClickListener { findByIson() }
-        sortByRadioGroup!!.setOnCheckedChangeListener { radioGroup, id ->
+        binding.byNameButton.setOnClickListener { findByName() }
+        binding.bySimButton.setOnClickListener { findBySim() }
+        binding.byLocalButton.setOnClickListener { findByLocale() }
+        binding.byIsoButton.setOnClickListener { findByIson() }
+        binding.sortByRadioGroup.setOnCheckedChangeListener { radioGroup, id ->
             sortBy = when (id) {
                 R.id.none_radio_button -> CountryPicker.SORT_BY_NONE
                 R.id.name_radio_button -> CountryPicker.SORT_BY_NAME
@@ -46,7 +38,7 @@ class MainActivity : AppCompatActivity(), OnCountryPickerListener {
                 else -> CountryPicker.SORT_BY_NONE
             }
         }
-        pickCountryButton!!.setOnClickListener { showPicker() }
+        binding.countryPickerButton.setOnClickListener { showPicker() }
     }
 
     private fun findByIson() {
@@ -115,42 +107,29 @@ class MainActivity : AppCompatActivity(), OnCountryPickerListener {
 
     private fun showResultActivity(country: Country?) {
         val intent = Intent(this@MainActivity, ResultActivity::class.java)
-        intent.putExtra(ResultActivity.Companion.BUNDLE_KEY_COUNTRY_NAME, country!!.name)
-        intent.putExtra(ResultActivity.Companion.BUNDLE_KEY_COUNTRY_CURRENCY, country.currency)
-        intent.putExtra(ResultActivity.Companion.BUNDLE_KEY_COUNTRY_DIAL_CODE, country.dialCode)
-        intent.putExtra(ResultActivity.Companion.BUNDLE_KEY_COUNTRY_ISO, country.getCode())
-        intent.putExtra(ResultActivity.Companion.BUNDLE_KEY_COUNTRY_FLAG_IMAGE, country.flag)
+        intent.putExtra(ResultActivity.BUNDLE_KEY_COUNTRY_NAME, country!!.name)
+        intent.putExtra(ResultActivity.BUNDLE_KEY_COUNTRY_CURRENCY, country.currency)
+        intent.putExtra(ResultActivity.BUNDLE_KEY_COUNTRY_DIAL_CODE, country.dialCode)
+        intent.putExtra(ResultActivity.BUNDLE_KEY_COUNTRY_ISO, country.getCode())
+        intent.putExtra(ResultActivity.BUNDLE_KEY_COUNTRY_FLAG_IMAGE, country.flag)
         startActivity(intent)
     }
 
     private fun showPicker() {
         val builder = CountryPicker.Builder().with(this@MainActivity)
                 .listener(this@MainActivity)
-        if (styleSwitch!!.isChecked) {
+        if (binding.customStyleToggleSwitch.isChecked) {
             builder.style(R.style.CountryPickerStyle)
         }
-        builder.theme(if (themeSwitch!!.isChecked) CountryPicker.THEME_NEW else CountryPicker.THEME_OLD)
-        builder.canSearch(searchSwitch!!.isChecked)
+        builder.theme(if (binding.themeToggleSwitch.isChecked) CountryPicker.THEME_NEW else CountryPicker.THEME_OLD)
+        builder.canSearch(binding.searchSwitch.isChecked)
         builder.sortBy(sortBy)
         countryPicker = builder.build()
-        if (useBottomSheet!!.isChecked) {
+        if (binding.bottomSheetSwitch.isChecked) {
             countryPicker.showBottomSheet(this@MainActivity)
         } else {
             countryPicker.showDialog(this@MainActivity)
         }
-    }
-
-    private fun initialize() {
-        pickCountryButton = findViewById(R.id.country_picker_button)
-        themeSwitch = findViewById(R.id.theme_toggle_switch)
-        styleSwitch = findViewById(R.id.custom_style_toggle_switch)
-        useBottomSheet = findViewById(R.id.bottom_sheet_switch)
-        searchSwitch = findViewById(R.id.search_switch)
-        sortByRadioGroup = findViewById(R.id.sort_by_radio_group)
-        findByNameButton = findViewById(R.id.by_name_button)
-        findBySimButton = findViewById(R.id.by_sim_button)
-        findByLocaleButton = findViewById(R.id.by_local_button)
-        findByIsoButton = findViewById(R.id.by_iso_button)
     }
 
     override fun onSelectCountry(country: Country?) {

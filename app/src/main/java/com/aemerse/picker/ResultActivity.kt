@@ -5,16 +5,15 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.aemerse.picker.databinding.ActivityResultBinding
 
 class ResultActivity : AppCompatActivity() {
-    private var countryNameTextView: TextView? = null
-    private var countryIsoCodeTextView: TextView? = null
-    private var countryDialCodeTextView: TextView? = null
-    private var selectedCountryCurrency: TextView? = null
-    private var countryFlagImageView: ImageView? = null
+    private lateinit var binding: ActivityResultBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_result)
+        binding = ActivityResultBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         initialize()
         showData()
     }
@@ -22,22 +21,16 @@ class ResultActivity : AppCompatActivity() {
     private fun showData() {
         val bundle = intent.extras
         if (bundle != null) {
-            countryNameTextView!!.text = bundle.getString(BUNDLE_KEY_COUNTRY_NAME)
-            countryIsoCodeTextView!!.text = bundle.getString(BUNDLE_KEY_COUNTRY_ISO)
-            countryDialCodeTextView!!.text = bundle.getString(BUNDLE_KEY_COUNTRY_DIAL_CODE)
-            selectedCountryCurrency!!.text = bundle.getString(BUNDLE_KEY_COUNTRY_CURRENCY)
-            countryFlagImageView!!.setImageResource(bundle.getInt(BUNDLE_KEY_COUNTRY_FLAG_IMAGE))
+            binding.selectedCountryNameTextView.text = bundle.getString(BUNDLE_KEY_COUNTRY_NAME)
+            binding.selectedCountryIsoTextView.text = bundle.getString(BUNDLE_KEY_COUNTRY_ISO)
+            binding.selectedCountryDialCodeTextView.text = bundle.getString(BUNDLE_KEY_COUNTRY_DIAL_CODE)
+            binding.selectedCountryCurrency.text = bundle.getString(BUNDLE_KEY_COUNTRY_CURRENCY)
+            binding.selectedCountryFlagImageView.setImageResource(bundle.getInt(BUNDLE_KEY_COUNTRY_FLAG_IMAGE))
         }
     }
 
     private fun initialize() {
-        countryNameTextView = findViewById(R.id.selected_country_name_text_view)
-        countryIsoCodeTextView = findViewById(R.id.selected_country_iso_text_view)
-        countryDialCodeTextView = findViewById(R.id.selected_country_dial_code_text_view)
-        countryFlagImageView = findViewById(R.id.selected_country_flag_image_view)
-        selectedCountryCurrency = findViewById(R.id.selected_country_currency)
-        val backButton = findViewById<ImageButton>(R.id.back_button)
-        backButton.setOnClickListener { finish() }
+        binding.backButton.setOnClickListener { finish() }
     }
 
     companion object {
